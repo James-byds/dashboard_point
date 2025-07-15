@@ -2,8 +2,8 @@
 require_once("functions.php");
 include 'nav.php';
 if (!isset($_GET['model'])) {
-  //*header('Location: dashboard.php');
-  //exit;
+  header('Location: dashboard.php');
+  exit;
 }
 $model = trim($_GET['model']);
 switch ($model) {
@@ -11,7 +11,7 @@ switch ($model) {
     $champs = [
       //fieldname => input type
       "subject"=>"text",
-      "formateur"=>"select",//select from staff members
+      //"formateur"=>"select",//select from staff members done later
       "local"=>"text",
       "name"=>"text",
     ];
@@ -32,24 +32,22 @@ switch ($model) {
 ?>
 <form action="add.php" method="post">
 
-
   <?php
   foreach ($champs as $key => $value) {
     echo '<label for="' . $key . '">' . $key;
     echo '<input type="' . $value . '" name="' . $key . '">';
     echo'</label>';
   }
-  //getdata
-  $url = curl_init(apiUrlSolo . '/'.$model); // API endpoint for fetching history items
-  curl_setopt($url, CURLOPT_RETURNTRANSFER, true); // Return the response as a string
-  curl_setopt($url, CURLOPT_HTTPHEADER, [
-      'Authorization: Bearer ' . $_SESSION['token'], // Use the session token for authentication
-      'Accept: application/json',
-      'Method: GET'
-  ]);
-  /*$response = curl_exec($url); // Execute the cURL request
-  $modelItems = json_decode($response, true); // Decode the JSON response
-  curl_close($url); // Close the cURL session*/
+  //getdata for select inputs
+  if ($model == "formations") {
+    echo '<label for="formateur">Formateur</label> <select name="formateur" id="formateur">';
+    $data = get_api_data("staff", [], false);
+    display($data);
+    foreach ($data as $key => $value) {
+      echo '<option value="' . $value['_id'] . '">' . $value['name'] . ' ' . $value['firstname'] . '</option>';
+    }
+    echo '</select>';
+  }
   ?>
   <button type="submit">Add</button>
 </form>

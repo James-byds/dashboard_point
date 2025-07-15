@@ -85,7 +85,14 @@ function model_display($modelItems, $model) {
     
 
     
-function get_api_data($method, $params) {
+function get_api_data($method, $params, $display = true) {
+  $params['fields'] = json_encode([
+      '_modified' => 0,
+      '_mby' => 0,
+      '_created' => 0,
+      '_state' => 0,
+      '_cby' => 0
+  ]);
   //$params is an associative array
   $url = curl_init(apiUrl . '/'.$method.'?'.http_build_query($params)); // API endpoint for fetching history items
   curl_setopt($url, CURLOPT_RETURNTRANSFER, true); // Return the response as a string
@@ -97,10 +104,9 @@ function get_api_data($method, $params) {
   $response = curl_exec($url); // Execute the cURL request
   $modelItems = json_decode($response, true); // Decode the JSON response
   curl_close($url); // Close the cURL session
-  model_display($modelItems, $method);
-  /*return json_encode([
-    'status' => 'success',
-    'data' => $modelItems
-  ])*/
+  if($display) model_display($modelItems, $method);
+  else {
+    return $modelItems;
+  }
 }
     ?>
