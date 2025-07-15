@@ -14,19 +14,7 @@ function display ($name) {
 }
 
 
-function model_display($params, $model) {
-  //$params is an associative array
-  $url = curl_init(apiUrl . '/'.$model.'?'.http_build_query($params)); // API endpoint for fetching history items
-  curl_setopt($url, CURLOPT_RETURNTRANSFER, true); // Return the response as a string
-  curl_setopt($url, CURLOPT_HTTPHEADER, [
-      'Authorization: Bearer ' . $_SESSION['token'], // Use the session token for authentication
-      'Accept: application/json',
-      'Method: GET'
-  ]);
-  $response = curl_exec($url); // Execute the cURL request
-  $modelItems = json_decode($response, true); // Decode the JSON response
-  curl_close($url); // Close the cURL session
-  
+function model_display($modelItems, $model) {
   echo "<p>I found these results:</p>
   <ul>
   ";
@@ -41,14 +29,14 @@ function model_display($params, $model) {
           $firstOfIndex = array_key_first($value);//
           //curl request to fetch individual item
           if ($firstOfIndex !=="_model") {//check if array has subarray
-            $model = $value[$firstOfIndex]['_model'];
+            $model_search = $value[$firstOfIndex]['_model'];
             $id=$value[$firstOfIndex]['_id'];
           }
           else {//else stock values
-            $model = $value['_model'];
+            $model_search = $value['_model'];
             $id=$value['_id'];
           }
-        $url = curl_init(apiUrlSolo . '/'.$model."/".$id); // API endpoint for fetching one item
+        $url = curl_init(apiUrlSolo . '/'.$model_search."/".$id); // API endpoint for fetching one item
         curl_setopt($url, CURLOPT_HTTPHEADER, [
               'Authorization: Bearer ' . $_SESSION['token'], // Use the session token for authentication
               'Accept: application/json',
@@ -71,7 +59,10 @@ function model_display($params, $model) {
         </li>";
       }
       echo "</ul>";
-      echo "<button formaction='./add.php' formmethod='get' class='add-button' data-model='".$model."'>Add new ".$model."</button>";
+      echo "
+      <form action='./add.php?model=".$model."' method='get'>
+      <button type = 'submit' name='model' class='add-button' data-model='".$model."' value='".$model."'>Add new ".$model."</button>
+      </form>";
       else :
         echo "No ".$model." found";
       endif;
@@ -89,7 +80,27 @@ function model_display($params, $model) {
               '_cby' => 0
           ])
       ];
-      model_display($params, 'entries');
+      get_api_data('entries', $params);
     }
     
+
+    
+function get_api_data($method, $params) {
+  //$params is an associative array
+  $url = curl_init(apiUrl . '/'.$method.'?'.http_build_query($params)); // API endpoint for fetching history items
+  curl_setopt($url, CURLOPT_RETURNTRANSFER, true); // Return the response as a string
+  curl_setopt($url, CURLOPT_HTTPHEADER, [
+      'Authorization: Bearer ' . $_SESSION['token'], // Use the session token for authentication
+      'Accept: application/json',
+      'Method: GET'
+  ]);
+  $response = curl_exec($url); // Execute the cURL request
+  $modelItems = json_decode($response, true); // Decode the JSON response
+  curl_close($url); // Close the cURL session
+  model_display($modelItems, $method);
+  /*return json_encode([
+    'status' => 'success',
+    'data' => $modelItems
+  ])*/
+}
     ?>

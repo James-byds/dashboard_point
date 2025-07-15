@@ -1,8 +1,9 @@
 <?php
 require_once("functions.php");
+include 'nav.php';
 if (!isset($_GET['model'])) {
-  header('Location: dashboard.php');
-  exit;
+  //*header('Location: dashboard.php');
+  //exit;
 }
 $model = trim($_GET['model']);
 switch ($model) {

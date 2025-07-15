@@ -24,7 +24,7 @@ require_once 'functions.php';
           '_cby' => 0
       ])
       ];
-    model_display($params, "staff");
+      get_api_data('staff', $params);
   ?>
 
 </body>

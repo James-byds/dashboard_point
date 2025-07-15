@@ -24,7 +24,7 @@ require_once 'functions.php';
           '_cby' => 0
       ])
       ];
-    model_display($params, "formations");
+      get_api_data('formations', $params);
   ?>
 
 </body>
