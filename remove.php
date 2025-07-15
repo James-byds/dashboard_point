@@ -19,3 +19,12 @@ curl_setopt($url, CURLOPT_HTTPHEADER, [
 ]);
 $response = curl_exec($url); // Execute the request
 curl_close($url); // Close the cURL session
+if($response === false) {
+    $error = 'Failed to connect to the API.';
+    exit;
+}
+
+// Decode the JSON response
+$response = json_decode($response, true);
+echo json_encode($response);
+echo "Entry removed successfully!";
