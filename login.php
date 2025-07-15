@@ -13,7 +13,6 @@ if (isset($_SESSION['user'])) {
     if (isset($_POST['action']) && $_POST['action'] === 'logout') {
         // Handle logout action
         session_unset();
-        session_destroy();
         header('Location: login.php');
         exit;
     }
