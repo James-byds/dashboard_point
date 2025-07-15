@@ -48,7 +48,8 @@ echo '<input type="' . $value . '" name="' . $key . '" value="' . $valueAttr . '
     $data = get_api_data("staff", [], false);
     display($data);
     foreach ($data as $key => $value) {
-      echo '<option value="' . $value['_id'] . '">' . $value['name'] . ' ' . $value['firstname'] . '</option>';
+      $selected = ($edit) ? ($data[$key]['_id'] == $data['formateur']) : "";
+      echo '<option value="' . $value['_id'] . '" ' . ($selected ? 'selected' : '') . '>' . $value['name'] . ' ' . $value['firstname'] . '</option>';
     }
     echo '</select>';
   }
