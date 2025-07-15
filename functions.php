@@ -27,8 +27,11 @@ function model_display($params, $model) {
   $modelItems = json_decode($response, true); // Decode the JSON response
   curl_close($url); // Close the cURL session
   
-  echo "<p>I found these results:</p>";
+  echo "<p>I found these results:</p>
+  <ul>
+  ";
   if (!empty($modelItems)) :
+    display($modelItems);
     foreach ($modelItems as $index => $array) {
       echo "<li>";
       echo "Index: " . $index . "<br>";
@@ -55,13 +58,20 @@ function model_display($params, $model) {
             $response = curl_exec($url); // Execute the cURL request
             $searchModel = json_decode($response, true); // Decode the JSON response
             curl_close($url); // Close the cURL session
-            echo "name: ".$searchModel["name"];
+            if ($searchModel["name"]!=null && $key!="_id")echo "name: ".$searchModel["name"];
           }
-          else if ($value!=null)echo $key.": ".$value;
+          else if ($value!=null && $key!="_id")echo $key.": ".$value;
           echo "<br>";
         }
-        echo"</li>";
+        echo"
+        <div class='buttons'>
+          <button class='delete-button' data-id='".$array['_id']."' data-model='".$model."'>Delete</button>
+          <button class='edit-button' data-id='".$array['_id']."' data-model='".$model."'>Edit</button>
+        </div>
+        </li>";
       }
+      echo "</ul>";
+      echo "<button class='add-button' data-model='".$model."'>Add new ".$model."</button>";
       else :
         echo "No ".$model." found";
       endif;
@@ -76,8 +86,7 @@ function model_display($params, $model) {
               '_mby' => 0,
               '_created' => 0,
               '_state' => 0,
-              '_cby' => 0,
-              '_id' => 0
+              '_cby' => 0
           ])
       ];
       model_display($params, 'entries');

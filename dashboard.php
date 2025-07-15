@@ -27,7 +27,6 @@ else{
 
 <section id="history">
   <h2>Historique du jour</h2>
-  <ul>
     <?php
   if (isset($_GET['query'])) {
     
