@@ -2,8 +2,8 @@
 require_once("functions.php");
 include 'nav.php';
 if (!isset($_GET['model'])) {
-  header('Location: dashboard.php');
-  exit;
+  //header('Location: dashboard.php');
+  //exit;
 }
 $model = trim($_GET['model']);
 switch ($model) {
@@ -30,7 +30,7 @@ switch ($model) {
     break;
 }
 ?>
-<form action="add.php" method="post">
+<form action="add.php?model=<?=$model?>" method="post">
 
   <?php
   foreach ($champs as $key => $value) {
@@ -54,11 +54,14 @@ switch ($model) {
 
 <?php
 function add($data, $model) {
+  echo apiUrlSolo;
   $url = curl_init(apiUrlSolo . '/'.$model); // API endpoint for adding history items
   curl_setopt($url, CURLOPT_RETURNTRANSFER, true); // Return the response as a string
   curl_setopt($url, CURLOPT_POST, true); // Set the request method to POST
   curl_setopt($url, CURLOPT_POSTFIELDS, json_encode($data)); // Data to be sent in the POST request body
   curl_setopt($url, CURLOPT_HTTPHEADER, [
+    'api-key: '.$_SESSION['token'],
+    //apiKey 
     'Content-Type: application/json',
     'Accept: application/json'
   ]);
@@ -66,13 +69,26 @@ function add($data, $model) {
   curl_close($url); // Close the cURL session
   if($response === false) {
       $error = 'Failed to connect to the API.';
-      exit;
-  }
-
-  // Decode the JSON response
+      //exit;
+    }
   $response = json_decode($response, true);
+  if(isset($response['error'])) {
+    echo json_encode($response['error']);
+  }
+  // Decode the JSON response
+  else {
   echo json_encode($response);
   echo "Entry added successfully!";
-   echo '<script>setTimeout(function(){ window.location.href = "dashboard.php"; }, 1000);</script>';
+  //echo '<script>setTimeout(function(){ window.location.href = "dashboard.php"; }, 1000);</script>';
+  }
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  //print_r($_POST);
+  $data['data'] = $_POST;
+  echo $_SESSION['token'];
+  //echo json_encode($data);
+  print_r($data);
+  add($data, $model);
 }
 ?>
