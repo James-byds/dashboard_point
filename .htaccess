@@ -1,0 +1,19 @@
+RewriteEngine On
+#start of recent edits
+RewriteRule .env$ index.php [L]
+RewriteRule ^index/.php$ - [L]
+# If the requested resource exists, let it be
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+
+# If the requested resource doesn't exist, rewrite to index.php
+RewriteRule ^(.*)$ index.php [L]
+
+
+RewriteRule auth$ /presence/cms/config/api/user/auth.php [L]
+# If the request is for the auth endpoint, rewrite to auth.php
+
+# lors de tests ne pas oublier de vider le cache
+ErrorDocument 404 /presence/front/404.php 
+#redirect to 404.php if the requested resource does not exist
