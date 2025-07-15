@@ -25,18 +25,25 @@ else{
   include 'search.php';
 ?>
 
-<section id="history">
+<section id="table">
   <h2>Historique du jour</h2>
-    <?php
+  <div class="table-header">
+    <div class="table-item">Type de visite</div>
+    <div class="table-item">Référence</div>
+    <div class="table-item">Arrivée</div>
+    <div class="table-item">Départ</div>
+    <div class="table-item">Date</div>
+  </div>
+  <?php
   if (isset($_GET['query'])) {
     
-//convert form data to api format
-$year=substr($_GET['query'], 0, 4);
-$month=substr($_GET['query'], 5, 2);
-$day=substr($_GET['query'], 8, 2);
-$searchDate = $day."/".$month."/".$year;
-echo "<p>Search date: " . $searchDate . "</p>";
-date_search($searchDate);
+    //convert form data to api format
+    $year=substr($_GET['query'], 0, 4);
+    $month=substr($_GET['query'], 5, 2);
+    $day=substr($_GET['query'], 8, 2);
+    $searchDate = $day."/".$month."/".$year;
+    echo "<p>Search date: " . $searchDate . "</p>";
+    date_search($searchDate);
   }
   else {
     define('TODAY', date('d/m/Y'));

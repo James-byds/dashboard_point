@@ -14,6 +14,15 @@ require_once 'functions.php';
   ?>
   <h1>Formations</h1>
   <p>This is the formation page.</p>
+  <section id="table">
+  <h2>Formations existantes</h2>
+  <div class="table-header">
+    <div class="table-item">Sujet</div>
+    <div class="table-item">Référent</div>
+    <div class="table-item">Local</div>
+    <div class="table-item">Date</div>
+  </div>
+
   <?php
     $params = [
       'fields' => json_encode([
@@ -26,6 +35,6 @@ require_once 'functions.php';
       ];
       get_api_data('formations', $params);
   ?>
-
+  </section>
 </body>
 </html>
