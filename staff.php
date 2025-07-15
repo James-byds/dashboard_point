@@ -21,8 +21,7 @@ require_once 'functions.php';
           '_mby' => 0,
           '_created' => 0,
           '_state' => 0,
-          '_cby' => 0,
-          '_id' => 0
+          '_cby' => 0
       ])
       ];
     model_display($params, "staff");
