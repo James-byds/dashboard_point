@@ -5,7 +5,7 @@ $model= trim($_GET['model']);
 //curl parameters
 $params = [
   'filter' => json_encode([
-    'id' => $id
+    '_id' => $id
 ])
 ];
 

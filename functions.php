@@ -55,7 +55,7 @@ function model_display($modelItems, $model) {
         <a href="./add.php?id='.$array['_id'].'&model='.$model.'">
         EDIT
         </a>
-        <a href="./delete.php?id='.$array['_id'].'&model='.$model.'">
+        <a href="./remove.php?id='.$array['_id'].'&model='.$model.'">
         DELETE
         </a>
         ';
