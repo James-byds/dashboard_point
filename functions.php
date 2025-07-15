@@ -65,13 +65,13 @@ function model_display($params, $model) {
         }
         echo"
         <div class='buttons'>
-          <button class='delete-button' data-id='".$array['_id']."' data-model='".$model."'>Delete</button>
-          <button class='edit-button' data-id='".$array['_id']."' data-model='".$model."'>Edit</button>
+          <button formaction='./remove.php?id=".$array['_id']."'&model='".$model."' formmethod='get' class='delete-button' data-id='".$array['_id']."' data-model='".$model."'>Delete</button>
+          <button formaction='./edit.php?id=".$array['_id']."'&model='".$model."' formmethod='get' class='edit-button' data-id='".$array['_id']."' data-model='".$model."'>Edit</button>
         </div>
         </li>";
       }
       echo "</ul>";
-      echo "<button class='add-button' data-model='".$model."'>Add new ".$model."</button>";
+      echo "<button formaction='./add.php' formmethod='get' class='add-button' data-model='".$model."'>Add new ".$model."</button>";
       else :
         echo "No ".$model." found";
       endif;
