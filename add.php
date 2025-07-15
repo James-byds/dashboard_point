@@ -1,11 +1,13 @@
 <?php
 require_once("functions.php");
 include 'nav.php';
-if (!isset($_GET['model'])) {
-  //header('Location: dashboard.php');
-  //exit;
-}
+$edit=false; //setup by default to not edit
 $model = trim($_GET['model']);
+if (isset($_GET['id'])) {
+  $data=get_api_data($model, [], false, apiUrlSolo);
+  display($data);
+  $edit=true; //for edit set values in fields
+}
 switch ($model) {
   case 'formations':
     $champs = [
@@ -35,7 +37,9 @@ switch ($model) {
   <?php
   foreach ($champs as $key => $value) {
     echo '<label for="' . $key . '">' . $key;
-    echo '<input type="' . $value . '" name="' . $key . '">';
+    $valueAttr = ($edit) ? $data[$key] : ""; //for edit set values in fields
+echo '<input type="' . $value . '" name="' . $key . '" value="' . $valueAttr . '">';
+
     echo'</label>';
   }
   //getdata for select inputs
@@ -49,7 +53,15 @@ switch ($model) {
     echo '</select>';
   }
   ?>
-  <button type="submit">Add</button>
+  <button type="submit"><?php
+  if ($edit) {
+    echo "Modifier";
+  }
+  else {
+    echo "Ajouter";
+  }
+  ?>
+  </button>
 </form>
 
 <?php
@@ -61,7 +73,6 @@ function add($data, $model) {
   curl_setopt($url, CURLOPT_POSTFIELDS, json_encode($data)); // Data to be sent in the POST request body
   curl_setopt($url, CURLOPT_HTTPHEADER, [
     'api-key: '.$_SESSION['token'],
-    //apiKey 
     'Content-Type: application/json',
     'Accept: application/json'
   ]);
@@ -86,6 +97,9 @@ function add($data, $model) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   //print_r($_POST);
   $data['data'] = $_POST;
+  if (isset($_GET['_id'])) {
+    $data['data']['_id'] = $_GET['_id'];
+  }
   echo $_SESSION['token'];
   //echo json_encode($data);
   print_r($data);

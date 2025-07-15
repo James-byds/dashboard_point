@@ -51,12 +51,20 @@ function model_display($modelItems, $model) {
           else if ($value!=null && $key!="_id")echo $key.": ".$value;
           echo "<br>";
         }
-        echo"
-        <div class='buttons'>
-          <button formaction='./remove.php?id=".$array['_id']."'&model='".$model."' formmethod='get' class='delete-button' data-id='".$array['_id']."' data-model='".$model."'>Delete</button>
-          <button formaction='./edit.php?id=".$array['_id']."'&model='".$model."' formmethod='get' class='edit-button' data-id='".$array['_id']."' data-model='".$model."'>Edit</button>
-        </div>
-        </li>";
+        echo '<div class="buttons">
+        <a href="./add.php?id='.$array['_id'].'&model='.$model.'">
+        EDIT
+        </a>
+        <a href="./delete.php?id='.$array['_id'].'&model='.$model.'">
+        DELETE
+        </a>
+        ';
+/*<button class="delete-button" data-id="'.$array['_id'].'" data-model="'.$model.'">Delete</button>
+<form action="./add.php?id='.$array['_id'].'&model='.$model.'" method="get">
+  <button input type="submit" class="edit-button" data-id="'.$array['_id'].'" data-model="'.$model.'">Edit</button>
+</form>*/
+echo'</div>
+</li>';
       }
       echo "</ul>";
       echo "
@@ -85,7 +93,7 @@ function model_display($modelItems, $model) {
     
 
     
-function get_api_data($method, $params, $display = true) {
+function get_api_data($method, $params, $display = true, $apiUrl =apiUrl) {
   $params['fields'] = json_encode([
       '_modified' => 0,
       '_mby' => 0,
@@ -94,7 +102,7 @@ function get_api_data($method, $params, $display = true) {
       '_cby' => 0
   ]);
   //$params is an associative array
-  $url = curl_init(apiUrl . '/'.$method.'?'.http_build_query($params)); // API endpoint for fetching history items
+  $url = curl_init($apiUrl . '/'.$method.'?'.http_build_query($params)); // API endpoint for fetching history items
   curl_setopt($url, CURLOPT_RETURNTRANSFER, true); // Return the response as a string
   curl_setopt($url, CURLOPT_HTTPHEADER, [
       'Authorization: Bearer ' . $_SESSION['token'], // Use the session token for authentication
