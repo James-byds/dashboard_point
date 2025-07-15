@@ -1,5 +1,6 @@
 <?php
 require_once("config.php");
+require_once("login.php");
 /**
  * Affiche le contenu d'une variable de manière lisible
  *  Utile pour le débogue
@@ -12,48 +13,38 @@ function display ($name) {
   endif;
 }
 
-function date_search ($date) {
 
- $params = [
-      'filter' => json_encode(['date' => $date]),
-      'fields' => json_encode([
-          '_modified' => 0,
-          '_mby' => 0,
-          '_created' => 0,
-          '_state' => 0,
-          '_cby' => 0,
-          '_id' => 0
-      ])
-  ];
-  $url = curl_init(apiUrl . '/entries?'.http_build_query($params)); // API endpoint for fetching history items
-    curl_setopt($url, CURLOPT_RETURNTRANSFER, true); // Return the response as a string
-    curl_setopt($url, CURLOPT_HTTPHEADER, [
-        //'Authorization: Bearer ' . $_SESSION['token'], // Use the session token for authentication
-        'Accept: application/json',
-        'Method: GET'
-    ]);
-    $response = curl_exec($url); // Execute the cURL request
-    $historyItems = json_decode($response, true); // Decode the JSON response
-    curl_close($url); // Close the cURL session
-
-    echo "<p>History items for today:</p>";
-    if (!empty($historyItems)) :
-      foreach ($historyItems as $index => $array) {
-    echo "<li>";
-    echo "Index: " . $index . "<br>";
-    foreach ($array as $key => $value) {
-      if(is_array($value)) {
-        //if is array, need to fetch api
-        $firstOfIndex = array_key_first($value);//
-        //curl request to fetch individual item
-        if ($firstOfIndex !=="_model") {//check if array has subarray
-          $model = $value[$firstOfIndex]['_model'];
-          $id=$value[$firstOfIndex]['_id'];
-        }
-        else {//else stock values
-          $model = $value['_model'];
-          $id=$value['_id'];
-        }
+function model_display($params, $model) {
+  //$params is an associative array
+  $url = curl_init(apiUrl . '/'.$model.'?'.http_build_query($params)); // API endpoint for fetching history items
+  curl_setopt($url, CURLOPT_RETURNTRANSFER, true); // Return the response as a string
+  curl_setopt($url, CURLOPT_HTTPHEADER, [
+      'Authorization: Bearer ' . $_SESSION['token'], // Use the session token for authentication
+      'Accept: application/json',
+      'Method: GET'
+  ]);
+  $response = curl_exec($url); // Execute the cURL request
+  $modelItems = json_decode($response, true); // Decode the JSON response
+  curl_close($url); // Close the cURL session
+  
+  echo "<p>I found these results:</p>";
+  if (!empty($modelItems)) :
+    foreach ($modelItems as $index => $array) {
+      echo "<li>";
+      echo "Index: " . $index . "<br>";
+      foreach ($array as $key => $value) {
+        if(is_array($value)) {
+          //if is array, need to fetch api
+          $firstOfIndex = array_key_first($value);//
+          //curl request to fetch individual item
+          if ($firstOfIndex !=="_model") {//check if array has subarray
+            $model = $value[$firstOfIndex]['_model'];
+            $id=$value[$firstOfIndex]['_id'];
+          }
+          else {//else stock values
+            $model = $value['_model'];
+            $id=$value['_id'];
+          }
         $url = curl_init(apiUrlSolo . '/'.$model."/".$id); // API endpoint for fetching one item
         curl_setopt($url, CURLOPT_HTTPHEADER, [
               'Authorization: Bearer ' . $_SESSION['token'], // Use the session token for authentication
@@ -72,8 +63,24 @@ function date_search ($date) {
         echo"</li>";
       }
       else :
-        echo "No history items found for today.";
-    endif;
-}
-
-?>
+        echo "No ".$model." found";
+      endif;
+    }
+    
+    function date_search ($date) {
+    
+     $params = [
+          'filter' => json_encode(['date' => $date]),
+          'fields' => json_encode([
+              '_modified' => 0,
+              '_mby' => 0,
+              '_created' => 0,
+              '_state' => 0,
+              '_cby' => 0,
+              '_id' => 0
+          ])
+      ];
+      model_display($params, 'entries');
+    }
+    
+    ?>

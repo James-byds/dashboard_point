@@ -1,6 +1,5 @@
 <?php
 require_once 'functions.php';
-session_start(); // Start the session to manage user authentication
 
 if (!isset($_SESSION['user'])) {
     header('Location: login.php');
@@ -23,7 +22,6 @@ else{
 <p>Welcome, <?=($_SESSION['user']); ?>!</p>
 <p>Your role: <?=($_SESSION['role']); ?></p>
 <?php
-  include 'login.php'; // Include the login file to handle logout
   include 'search.php';
 ?>
 
