@@ -1,30 +1,28 @@
 <?php 
+require_once('functions.php');
 //remove entry from the api
-$id = parseInt($_GET['id']);
+$id = $_GET['id'];
 $model= trim($_GET['model']);
-//curl parameters
-$params = [
-  'filter' => json_encode([
-    '_id' => $id
-])
-];
-
 //curl request
-$url = curl_init(apiUrlSolo . '/'.$model.'?'.http_build_query($params)); // API endpoint for fetching history items
+$url = curl_init(apiUrlSolo . '/'.$model."/".$id); // API endpoint for fetching history items
 curl_setopt($url, CURLOPT_RETURNTRANSFER, true); // Return the response as a string
 curl_setopt($url, CURLOPT_CUSTOMREQUEST, 'DELETE');
 curl_setopt($url, CURLOPT_HTTPHEADER, [
+  'api-key: '.$_SESSION['token'],
   'Content-Type: application/json',
   'Accept: application/json'
 ]);
 $response = curl_exec($url); // Execute the request
-curl_close($url); // Close the cURL session
+display($url);
 if($response === false) {
     $error = 'Failed to connect to the API.';
     exit;
-}
-
-// Decode the JSON response
+  }
 $response = json_decode($response, true);
 echo json_encode($response);
+display($response);
+curl_close($url); // Close the cURL session
+
+// Decode the JSON response
 echo "Entry removed successfully!";
+header('Location: staff.php');
