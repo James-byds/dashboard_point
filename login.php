@@ -1,12 +1,12 @@
 <?php
-require_once 'variables.php'; // Include the variables file for API URLs
+require_once 'config.php'; // Include the variables file for API URLs
 if(session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 if (isset($_SESSION['user'])) {
     ?>
 <form action="login.php" method="post">
-  <button type="submit">Logout</button>
+  <button type="submit" class="button">Logout</button>
   <input type="hidden" name="action" value="logout">
 </form>
     <?php
@@ -20,9 +20,9 @@ if (isset($_SESSION['user'])) {
 else {
 ?>
 <form action="login.php" method="post" class="login-form">
-  <input type="text" name="user" placeholder="Username" required>
-  <input type="password" name="password" placeholder="Password" required>
-  <button type="submit">Login</button>
+  <input class="input is-rounded"type="text" name="user" placeholder="Username" required>
+  <input class="input is-rounded"type="password" name="password" placeholder="Password" required>
+  <button class="button is-info" type="submit">Login</button>
   <input type="hidden" name="action" value="login">
 </form>
 <?php
@@ -65,8 +65,7 @@ else {
             echo "data: " . json_encode($authResult);
             echo" role: " . $_SESSION['role'];
             echo" token: " . $_SESSION['token'];
-            
-           // header('Location: index.php');
+            header('Location: index.php');
         }
     }
   }
