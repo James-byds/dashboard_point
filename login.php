@@ -61,7 +61,12 @@ else {
             $_SESSION['user'] = $authResult['user'];
             $_SESSION['role'] = $authResult['role'];
             $_SESSION['token'] = $authResult['apiKey'];
-            header('Location: index.php');
+            echo "Logged in successfully!";
+            echo "data: " . json_encode($authResult);
+            echo" role: " . $_SESSION['role'];
+            echo" token: " . $_SESSION['token'];
+            
+           // header('Location: index.php');
         }
     }
   }

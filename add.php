@@ -4,8 +4,9 @@ include 'nav.php';
 $edit=false; //setup by default to not edit
 $model = trim($_GET['model']);
 if (isset($_GET['id'])) {
-  $data=get_api_data($model, [], false, apiUrlSolo);
+  $data=get_api_data($model, [], false, apiUrlSolo);//get data of element to edit
   display($data);
+  //populate fields
   $edit=true; //for edit set values in fields
 }
 switch ($model) {
