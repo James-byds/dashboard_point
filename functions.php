@@ -24,6 +24,7 @@ function model_display($modelItems, $model) {
       echo "<li>";
       echo "Index: " . $index . "<br>";
       foreach ($array as $key => $value) {
+        echo"<p>";
         if(is_array($value)) {
           //if is array, need to fetch api
           $firstOfIndex = array_key_first($value);//
@@ -46,10 +47,10 @@ function model_display($modelItems, $model) {
             $response = curl_exec($url); // Execute the cURL request
             $searchModel = json_decode($response, true); // Decode the JSON response
             curl_close($url); // Close the cURL session
-            if ($searchModel["name"]!=null && $key!="_id")echo "name: ".$searchModel["name"];
+            if (isset($searchModel["name"]))echo "name: ".$searchModel["name"];
+            else if (isset($searchModel["firstname"]))echo "firstname: ".$searchModel["firstname"];
           }
           else if ($value!=null && $key!="_id")echo $key.": ".$value;
-          echo "<br>";
         }
         echo '<div class="buttons">
         <a href="./add.php?id='.$array['_id'].'&model='.$model.'">
