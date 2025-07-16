@@ -18,6 +18,9 @@ formation -> List of available formations
 
 OLD GENERATED DATA MAY CAUSE ERRORS AND DISPLAY INNACURACIES DUE TO DATA FORMAT CHANGES IN THE API (notable users and staff members)
 
+For debugging purposes, you can use the display() function initiated in functions.php (it's a basic print_r)
+-> if DEBUG is set to false, it won't show up
+
 ## URL des projets déployés
 
 front : https://jbappoint.netlify.app
