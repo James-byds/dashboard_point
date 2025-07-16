@@ -18,21 +18,23 @@ else{
   <?php
   include 'nav.php';
   ?>
-<h1>Dashboard</h1>
+<h1 class="dashboard-title title">Dashboard</h1>
 <p>Welcome, <?=($_SESSION['user']); ?>!</p>
 <p>Your role: <?=($_SESSION['role']); ?></p>
 <?php
   include 'search.php';
 ?>
 
-<section id="table">
+<section id="table" class="flex">
   <h2>Historique du jour</h2>
-  <div class="table-header">
-    <div class="table-item">Type de visite</div>
-    <div class="table-item">Référence</div>
-    <div class="table-item">Arrivée</div>
-    <div class="table-item">Départ</div>
-    <div class="table-item">Date</div>
+  <div class="table-header grid box header">
+    <div class="table-item column has-text-centered border box">Type de visite</div>
+    <div class="table-item column has-text-centered border box">Référence</div>
+    <div class="table-item column has-text-centered border box">Arrivée</div>
+    <div class="table-item column has-text-centered border box">Date</div>
+    <div class="table-item column has-text-centered border box">Départ</div>
+    <div class="table-item column has-text-centered border box">Visiteur</div>
+    <div class="table-item column has-text-centered border box">Controles</div>
   </div>
   <?php
   if (isset($_GET['query'])) {

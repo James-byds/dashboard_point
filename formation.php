@@ -16,11 +16,11 @@ require_once 'functions.php';
   <p>This is the formation page.</p>
   <section id="table">
   <h2>Formations existantes</h2>
-  <div class="table-header">
-    <div class="table-item">Sujet</div>
-    <div class="table-item">Référent</div>
-    <div class="table-item">Local</div>
-    <div class="table-item">Date</div>
+  <div class="table-header grid">
+    <div class="table-item column has-text-centered border box">Sujet</div>
+    <div class="table-item column has-text-centered border box">Référent</div>
+    <div class="table-item column has-text-centered border box">Local</div>
+    <div class="table-item column has-text-centered border box">Date</div>
   </div>
 
   <?php

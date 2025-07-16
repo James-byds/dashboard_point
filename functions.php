@@ -16,15 +16,14 @@ function display ($name) {
 
 function model_display($modelItems, $model) {
   echo "<p>I found these results:</p>
-  <ul>
+  <ul class='flex list'>
   ";
   if (!empty($modelItems)) :
     display($modelItems);
     foreach ($modelItems as $index => $array) {
-      echo "<li>";
-      echo "Index: " . $index . "<br>";
+      echo "<li class='card grid has-text-centered p-1 m-1'>
+      ";
       foreach ($array as $key => $value) {
-        echo"<p>";
         if(is_array($value)) {
           //if is array, need to fetch api
           $firstOfIndex = array_key_first($value);//
@@ -47,30 +46,31 @@ function model_display($modelItems, $model) {
             $response = curl_exec($url); // Execute the cURL request
             $searchModel = json_decode($response, true); // Decode the JSON response
             curl_close($url); // Close the cURL session
-            if (isset($searchModel["name"]))echo "name: ".$searchModel["name"];
-            else if (isset($searchModel["firstname"]))echo "firstname: ".$searchModel["firstname"];
+            if (isset($searchModel["name"]))echo "<p>name: ".$searchModel["name"];
+            else if (isset($searchModel["firstname"]))echo "<p>firstname: ".$searchModel["firstname"];
           }
-          else if ($value!=null && $key!="_id")echo $key.": ".$value;
+          else if ( $key!="_id")echo "<p>".$key.": ".$value;
         }
-        echo '<div class="buttons">
-        <a href="./add.php?id='.$array['_id'].'&model='.$model.'">
+        echo '
+        <div class="buttons">
+        <a href="./add.php?id='.$array['_id'].'&model='.$model.'" class="button is-light is-link">
         EDIT
         </a>
-        <a href="./remove.php?id='.$array['_id'].'&model='.$model.'">
+        <a href="./remove.php?id='.$array['_id'].'&model='.$model.'" class="button is-light is-link">
         DELETE
         </a>
+        </div>
         ';
 /*<button class="delete-button" data-id="'.$array['_id'].'" data-model="'.$model.'">Delete</button>
 <form action="./add.php?id='.$array['_id'].'&model='.$model.'" method="get">
   <button input type="submit" class="edit-button" data-id="'.$array['_id'].'" data-model="'.$model.'">Edit</button>
 </form>*/
-echo'</div>
-</li>';
+echo'</li>';
       }
       echo "</ul>";
       echo "
-      <form action='./add.php?model=".$model."' method='get'>
-      <button type = 'submit' name='model' class='add-button' data-model='".$model."' value='".$model."'>Add new ".$model."</button>
+      <form class='mx-auto'action='./add.php?model=".$model."' method='get'>
+      <button type = 'submit' name='model' class='add-button button is-light flex' data-model='".$model."' value='".$model."'>Add new ".$model."</button>
       </form>";
       else :
         echo "No ".$model." found";

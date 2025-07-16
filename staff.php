@@ -16,12 +16,12 @@ require_once 'functions.php';
   <p>This is the staff page.</p>
   <section id="table">
   <h2>Membres du personnel</h2>
-  <div class="table-header">
-    <div class="table-item">Nom</div>
-    <div class="table-item">Prénom</div>
-    <div class="table-item">Bureau</div>
-    <div class="table-item">Téléphone</div>
-    <div class="table-item">Type</div>
+  <div class="table-header grid">
+    <div class="table-item column has-text-centered box">Nom</div>
+    <div class="table-item column has-text-centered box">Prénom</div>
+    <div class="table-item column has-text-centered box">Bureau</div>
+    <div class="table-item column has-text-centered box">Téléphone</div>
+    <div class="table-item column has-text-centered box">Controles</div>
   </div>
 
   <?php
