@@ -1,7 +1,6 @@
 RewriteEngine On
 #start of recent edits
 RewriteRule .env$ index.php [L]
-RewriteRule ^index\.php$ dashboard.php [L]
 RewriteRule ^index/.php$ - [L]
 # If the requested resource exists, let it be
 RewriteCond %{REQUEST_FILENAME} !-f

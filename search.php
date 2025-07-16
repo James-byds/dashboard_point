@@ -1,4 +1,4 @@
-<form action="dashboard.php" method="get">
+<form action="index.php" method="get">
   <input type="date" name="query" required>
   <button type="submit">Search</button>
 </form>

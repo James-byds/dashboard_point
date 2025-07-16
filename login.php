@@ -61,7 +61,7 @@ else {
             $_SESSION['user'] = $authResult['user'];
             $_SESSION['role'] = $authResult['role'];
             $_SESSION['token'] = $authResult['apiKey'];
-            header('Location: dashboard.php');
+            header('Location: index.php');
         }
     }
   }

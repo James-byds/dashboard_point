@@ -25,4 +25,4 @@ curl_close($url); // Close the cURL session
 
 // Decode the JSON response
 echo "Entry removed successfully!";
-header('Location: dashboard.php');
+header('Location: index.php');
