@@ -61,9 +61,7 @@ else {
             $_SESSION['user'] = $authResult['user'];
             $_SESSION['role'] = $authResult['role'];
             $_SESSION['token'] = $authResult['apiKey'];
-            //header('Location: login.php');
-            echo '<p>Login successful! Redirecting...</p>';
-            echo '<script>setTimeout(function(){ window.location.href = "dashboard.php"; }, 1000);</script>';
+            header('Location: dashboard.php');
         }
     }
   }
